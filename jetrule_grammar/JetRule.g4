@@ -7,10 +7,10 @@ grammar JetRule;
 jetrule: statement* EOF;
 
 statement
-  : defineLiteralStmt   
-  | defineResourceStmt  
-  | lookupTableStmt
-  | COMMENT
+  : defineLiteralStmt  
+  | defineResourceStmt 
+  | lookupTableStmt    
+  | COMMENT            
   ;
 
 // --------------------------------------------------------------------------------------
@@ -25,12 +25,12 @@ defineLiteralStmt
   | stringLiteralStmt   
   ;
 
-int32LiteralStmt:  Int32Type  Identifier ASSIGN intExpr    SEMICOLON;
-uInt32LiteralStmt: UInt32Type Identifier ASSIGN uintExpr   SEMICOLON;
-int64LiteralStmt:  Int64Type  Identifier ASSIGN intExpr    SEMICOLON;
-uInt64LiteralStmt: UInt64Type Identifier ASSIGN uintExpr   SEMICOLON;
-doubleLiteralStmt: DoubleType Identifier ASSIGN doubleExpr SEMICOLON;
-stringLiteralStmt: StringType Identifier ASSIGN String SEMICOLON;
+int32LiteralStmt:  varType=Int32Type  varName=Identifier ASSIGN declValue=intExpr    SEMICOLON;
+uInt32LiteralStmt: varType=UInt32Type varName=Identifier ASSIGN declValue=uintExpr   SEMICOLON;
+int64LiteralStmt:  varType=Int64Type  varName=Identifier ASSIGN declValue=intExpr    SEMICOLON;
+uInt64LiteralStmt: varType=UInt64Type varName=Identifier ASSIGN declValue=uintExpr   SEMICOLON;
+doubleLiteralStmt: varType=DoubleType varName=Identifier ASSIGN declValue=doubleExpr SEMICOLON;
+stringLiteralStmt: varType=StringType varName=Identifier ASSIGN declValue=String SEMICOLON;
 
 intExpr
   : '+' intExpr  
@@ -57,22 +57,26 @@ defineResourceStmt
   | volatileResourceStmt
   ;
 
-namedResourceStmt: ResourceType Identifier ASSIGN resourceValue SEMICOLON;
-volatileResourceStmt: VolatileResourceType Identifier ASSIGN String SEMICOLON;
+namedResourceStmt:    ResourceType         resName=Identifier ASSIGN resCtx=resourceValue SEMICOLON;
+volatileResourceStmt: resType=VolatileResourceType resName=Identifier ASSIGN resVal=String SEMICOLON;
 
 resourceValue
-  : NULL
-  | CreateUUIDResource
-  | String
+  : resVal=NULL
+  | resVal=CreateUUIDResource
+  | resVal=String
   ;
 
 // --------------------------------------------------------------------------------------
 // Define Lookup Table
 // --------------------------------------------------------------------------------------
-lookupTableStmt: LookupTable Identifier '{' 
-    TableName ':' Identifier ',' COMMENT?
-    Key ':' identifierList ',' COMMENT?
-    Columns ':' identifierList COMMENT?
+lookupTableStmt: LookupTable lookupName=Identifier '{' 
+    COMMENT*
+    TableName ':' tblStorageName=Identifier ',' 
+    COMMENT*
+    Key ':' tblKeys=identifierList ',' 
+    COMMENT*
+    Columns ':' tblColumns=identifierList 
+    COMMENT*
   '}' SEMICOLON;
 
 identifierList: '[' identifierSeq? ']';

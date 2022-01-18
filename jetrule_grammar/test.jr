@@ -29,6 +29,9 @@ text EXCLUDED_MODALITY                   = "MODALITY";
 resource medicareRateObjTC1              = "_0:medicareRateObjTC1";  # Support RC legacy
 resource medicareRateObjTC2              = "_0:medicareRateObjTC2";  # Support RC legacy
 
+resource None  = null;
+resource uuid  = create_uuid_resource();
+
 # Preferred way to define volative resources
 # ---------------------------------------------------------------------------------------
 volatile_resource medicareRateObj261     = "medicareRateObj261";
