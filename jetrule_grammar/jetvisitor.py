@@ -70,6 +70,13 @@ class JetVisitor(JetRuleVisitor):
     super().visitChildren(ctx)
     return { 'type': 'volatile_resource', 'id': ctx.resName.text, 'value': ctx.resVal.text }
 
+  # Visit a parse tree produced by JetRuleParser#lookupTableStmt.
+  def visitLookupTableStmt(self, ctx:JetRuleParser.LookupTableStmtContext):
+    super().visitChildren(ctx)
+    spec = {'name': ctx.lookupName.text, 'table': ctx.tblStorageName.text, 'keys': ctx.tblKeys.seq.getText(), 'columns': ctx.tblColumns.seq.getText()}
+    print('Lookup Table spec:', spec)
+    return spec
+
 if __name__ == "__main__":
   
   data =  a4.FileStream('test.jr', encoding='utf-8')

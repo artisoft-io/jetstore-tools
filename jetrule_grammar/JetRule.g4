@@ -79,7 +79,7 @@ lookupTableStmt: LookupTable lookupName=Identifier '{'
     COMMENT*
   '}' SEMICOLON;
 
-identifierList: '[' identifierSeq? ']';
+identifierList: '[' seq=identifierSeq? ']';
 identifierSeq: Identifier (',' Identifier)* ;
 
 // ======================================================================================
