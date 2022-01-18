@@ -9,7 +9,8 @@ jetrule: statement* EOF;
 statement
   : defineLiteralStmt  
   | defineResourceStmt 
-  | lookupTableStmt    
+  | lookupTableStmt
+  | jetRuleStmt
   | COMMENT            
   ;
 
@@ -82,6 +83,20 @@ lookupTableStmt: LookupTable lookupName=Identifier '{'
 identifierList: '[' seq=identifierSeq? ']';
 identifierSeq: Identifier (',' Identifier)* ;
 
+// --------------------------------------------------------------------------------------
+// Define Jet Rule
+// --------------------------------------------------------------------------------------
+jetRuleStmt: '[' ruleName=Identifier ruleProperties* ']' ':' antecedent+ SEMICOLON ;
+ruleProperties: ',' key=Identifier ':' valCtx=propertyValue ;
+propertyValue: ( val=String | val=TRUE | val=FALSE | intval=intExpr ) ;
+
+antecedent: '(' s=atom p=atom o=atom ')' '.'? ;
+atom
+  : '?' Identifier
+  | Identifier ':' Identifier
+  | Identifier
+  ;
+
 // ======================================================================================
 // Lexer section
 // --------------------------------------------------------------------------------------
@@ -101,6 +116,9 @@ TableName: 'table_name';
 Key: 'key';
 Columns: 'columns';
 
+TRUE: 'true';
+FALSE: 'false';
+
 PLUS: '+';
 MINUS: '-';
 SEMICOLON: ';';
@@ -108,7 +126,7 @@ ASSIGN: '=';
 NULL: ('null' | 'NULL' | 'Null');
 
 Identifier:	NONDIGIT (NONDIGIT | DIGITS)*;
-NONDIGIT: [a-zA-Z_];
+fragment NONDIGIT: [a-zA-Z_];
 DIGITS: [0-9]+;
 
 // IdentifierList: '[' Identifier* ']';

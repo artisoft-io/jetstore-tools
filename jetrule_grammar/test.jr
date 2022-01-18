@@ -7,8 +7,8 @@
 # ---------------------------------------------------------------------------------------
 # The JetRule language now have true and false already defined as boolean, adding here
 # for illustration:
-int true = 1;
-int false = 0;
+int isTrue = 1;
+int isFalse = 0;
 
 # Defining some constants (e.g. Exclusion Types)
 # ---------------------------------------------------------------------------------------
@@ -62,5 +62,15 @@ lookup_table MSK_DRG_TRIGGER {
   # Data type based on columns type
   columns: [MSK_AREA_DRG_TRIGGER_ONLY, MSK_TAG, TRIGGER_TAG_DRG_ONLY, DRG, OVERLAP, USE_ANESTHESIA]
 };
+
+
+# =======================================================================================
+# Defining Jet Rules
+# ---------------------------------------------------------------------------------------
+[Rule1]: ( ?s p o) ;
+[Rule2, s:+100, o:false, tag:"USI"]: 
+  (?clm01 rdf:type usi:Claim).
+  (?clm01 usi:hasDRG ?drg) 
+;
 
 # That's it for now!
