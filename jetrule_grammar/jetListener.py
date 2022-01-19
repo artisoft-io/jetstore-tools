@@ -103,7 +103,39 @@ class JetListener(JetRuleListener):
 
   # Exit a parse tree produced by JetRuleParser#antecedent.
   def exitAntecedent(self, ctx:JetRuleParser.AntecedentContext):
-    self.ruleAntecedents.append([ctx.s.getText(), ctx.p.getText(), ctx.o.getText()])
+    self.ruleAntecedents.append({ 'isNot': True if ctx.n else False, 'triple':[ctx.s.getText(), ctx.p.getText(), ctx.o.getText()], 'f': ctx.f.expr if ctx.f else None })
+
+  # Exit a parse tree produced by JetRuleParser#BinaryExprTerm.
+  def exitBinaryExprTerm(self, ctx:JetRuleParser.BinaryExprTermContext):
+    ctx.expr = {'type': 'binary', 'lhs': ctx.lhs.expr, 'op': ctx.op.getText(), 'rhs': ctx.rhs.expr}
+    # print('exitBinaryExprTerm',ctx.expr )
+
+  # Exit a parse tree produced by JetRuleParser#BinaryExprTerm2.
+  def exitBinaryExprTerm2(self, ctx:JetRuleParser.BinaryExprTerm2Context):
+    ctx.expr = {'type': 'binary', 'lhs': ctx.lhs.expr, 'op': ctx.op.getText(), 'rhs': ctx.rhs.expr}
+
+  # Exit a parse tree produced by JetRuleParser#UnaryExprTerm.
+  def exitUnaryExprTerm(self, ctx:JetRuleParser.UnaryExprTermContext):
+    ctx.expr = {'type': 'unary', 'arg': ctx.arg.expr, 'op': ctx.op.getText()}
+
+  # Exit a parse tree produced by JetRuleParser#UnaryExprTerm2.
+  def exitUnaryExprTerm2(self, ctx:JetRuleParser.UnaryExprTerm2Context):
+    ctx.expr = {'type': 'unary', 'arg': ctx.arg.expr, 'op': ctx.op.getText()}
+
+  # Exit a parse tree produced by JetRuleParser#IdentExprTerm.
+  def exitIdentExprTerm(self, ctx:JetRuleParser.IdentExprTermContext):
+    ctx.expr = {'type': 'ident', 'id': ctx.ident.getText()}
+    # print('exitIdentExprTerm',ctx.expr )
+
+  # Exit a parse tree produced by JetRuleParser#TrueExprTerm.
+  def exitTrueExprTerm(self, ctx:JetRuleParser.TrueExprTermContext):
+    ctx.expr = {'type': 'keyword', 'id': 'true'}
+    # print('exitTrueExprTerm',ctx.expr )
+
+  # Exit a parse tree produced by JetRuleParser#FalseExprTerm.
+  def exitFalseExprTerm(self, ctx:JetRuleParser.FalseExprTermContext):
+    ctx.expr = {'type': 'keyword', 'id': 'false'}
+    # print('exitFalseExprTerm',ctx.expr )
 
 if __name__ == "__main__":
   

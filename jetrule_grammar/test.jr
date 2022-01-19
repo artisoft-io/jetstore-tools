@@ -70,7 +70,13 @@ lookup_table MSK_DRG_TRIGGER {
 [Rule1]: ( ?s p o) ;
 [Rule2, s:+100, o:false, tag:"USI"]: 
   (?clm01 rdf:type usi:Claim).
-  (?clm01 usi:hasDRG ?drg) 
+  not(?clm01 usi:hasDRG ?drg).[true and false]
+;
+[Rule3]: 
+  (?clm01 rdf:type usi:Claim).[(?a1 + b1) * (?a2 + b2)].
+;
+[Rule4]: 
+  (?clm01 has_code ?code).[not(?a1 or b1) and (not ?a2)].
 ;
 
 # That's it for now!

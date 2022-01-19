@@ -90,11 +90,37 @@ jetRuleStmt: '[' ruleName=Identifier ruleProperties* ']' ':' antecedent+ SEMICOL
 ruleProperties: ',' key=Identifier ':' valCtx=propertyValue ;
 propertyValue: ( val=String | val=TRUE | val=FALSE | intval=intExpr ) ;
 
-antecedent: '(' s=atom p=atom o=atom ')' '.'? ;
+antecedent: n=NOT? '(' s=atom p=atom o=atom ')' '.'? ( '[' f=exprTerm ']' )? ;
+
 atom
   : '?' Identifier
   | Identifier ':' Identifier
   | Identifier
+  ;
+
+exprTerm
+  : lhs=exprTerm op=binaryOp rhs=exprTerm          # BinaryExprTerm
+  | '(' lhs=exprTerm op=binaryOp rhs=exprTerm ')'  # BinaryExprTerm2
+  | op=unaryOp '(' arg=exprTerm ')'                # UnaryExprTerm
+  | '(' op=unaryOp arg=exprTerm ')'                # UnaryExprTerm2
+  | ident=atom                                     # IdentExprTerm
+  | TRUE                                           # TrueExprTerm
+  | FALSE                                          # FalseExprTerm
+  ;
+
+
+binaryOp
+  : PLUS
+  | MINUS
+  | MUL
+  | DIV
+  | OR
+  | AND
+  ;
+
+unaryOp
+  : NOT
+  | TOTEXT
   ;
 
 // ======================================================================================
@@ -118,9 +144,17 @@ Columns: 'columns';
 
 TRUE: 'true';
 FALSE: 'false';
+NOT: 'not';
+
+TOTEXT: 'toText';
 
 PLUS: '+';
 MINUS: '-';
+MUL: '*';
+DIV: '/';
+OR: 'or';
+AND: 'and';
+
 SEMICOLON: ';';
 ASSIGN: '=';
 NULL: ('null' | 'NULL' | 'Null');
