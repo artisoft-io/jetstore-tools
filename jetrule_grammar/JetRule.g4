@@ -86,11 +86,12 @@ identifierSeq: Identifier (',' Identifier)* ;
 // --------------------------------------------------------------------------------------
 // Define Jet Rule
 // --------------------------------------------------------------------------------------
-jetRuleStmt: '[' ruleName=Identifier ruleProperties* ']' ':' antecedent+ SEMICOLON ;
+jetRuleStmt: '[' ruleName=Identifier ruleProperties* ']' ':' antecedent+ '->' consequent+ SEMICOLON ;
 ruleProperties: ',' key=Identifier ':' valCtx=propertyValue ;
 propertyValue: ( val=String | val=TRUE | val=FALSE | intval=intExpr ) ;
 
 antecedent: n=NOT? '(' s=atom p=atom o=atom ')' '.'? ( '[' f=exprTerm ']' )? ;
+consequent: '(' s=atom p=atom o=exprTerm ')' '.'? ;
 
 atom
   : '?' Identifier
