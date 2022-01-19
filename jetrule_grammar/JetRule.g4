@@ -90,7 +90,7 @@ jetRuleStmt: '[' ruleName=Identifier ruleProperties* ']' ':' antecedent+ '->' co
 ruleProperties: ',' key=Identifier ':' valCtx=propertyValue ;
 propertyValue: ( val=String | val=TRUE | val=FALSE | intval=intExpr ) ;
 
-antecedent: n=NOT? '(' s=atom p=atom o=atom ')' '.'? ( '[' f=exprTerm ']' )? ;
+antecedent: n=NOT? '(' s=atom p=atom o=atom ')' '.'? ( '[' f=exprTerm ']' '.'? )? ;
 consequent: '(' s=atom p=atom o=exprTerm ')' '.'? ;
 
 atom

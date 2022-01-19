@@ -74,7 +74,7 @@ lookup_table MSK_DRG_TRIGGER {
   (?clm01 rdf:type usi:SpecialClaim)
 ;
 [Rule3]: 
-  (?clm01 rdf:type usi:Claim).[(?a1 + b1) * (?a2 + b2)]
+  (?clm01 rdf:type usi:Claim).[(?a1 + b1) * (?a2 + b2)].
   ->
   (?clm01 rdf:type usi:SpecialClaim).
   (?clm02 rdf:type usi:SpecialClaim)
