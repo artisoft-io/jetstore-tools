@@ -75,6 +75,7 @@ lookup_table MSK_DRG_TRIGGER {
 ;
 [Rule3]: 
   (?clm01 rdf:type usi:Claim).[(?a1 + b1) * (?a2 + b2)].
+  (?clm01 rdf:type usi:Claim).[(?a1 or b1) and ?a2].
   ->
   (?clm01 rdf:type usi:SpecialClaim).
   (?clm02 rdf:type usi:SpecialClaim)
@@ -83,7 +84,8 @@ lookup_table MSK_DRG_TRIGGER {
 [Rule4]: 
   (?clm01 has_code ?code).[not(?a1 or b1) and (not ?a2)]
   ->
-  (?clm01 rdf:type (?a1 + ?b2))
+  (?clm01 value (?a1 + ?b2)).
+  (?clm01 value2 ?a1 + ?b2)
 ;
 
 # That's it for now!
