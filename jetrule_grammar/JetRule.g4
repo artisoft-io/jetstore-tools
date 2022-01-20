@@ -7,10 +7,11 @@ grammar JetRule;
 jetrule: statement* EOF;
 
 statement
-  : defineLiteralStmt   
-  | defineResourceStmt  
+  : defineLiteralStmt  
+  | defineResourceStmt 
   | lookupTableStmt
-  | COMMENT
+  | jetRuleStmt
+  | COMMENT            
   ;
 
 // --------------------------------------------------------------------------------------
@@ -25,12 +26,12 @@ defineLiteralStmt
   | stringLiteralStmt   
   ;
 
-int32LiteralStmt:  Int32Type  Identifier ASSIGN intExpr    SEMICOLON;
-uInt32LiteralStmt: UInt32Type Identifier ASSIGN uintExpr   SEMICOLON;
-int64LiteralStmt:  Int64Type  Identifier ASSIGN intExpr    SEMICOLON;
-uInt64LiteralStmt: UInt64Type Identifier ASSIGN uintExpr   SEMICOLON;
-doubleLiteralStmt: DoubleType Identifier ASSIGN doubleExpr SEMICOLON;
-stringLiteralStmt: StringType Identifier ASSIGN String SEMICOLON;
+int32LiteralStmt:  varType=Int32Type  varName=declIdentifier ASSIGN declValue=intExpr    SEMICOLON;
+uInt32LiteralStmt: varType=UInt32Type varName=declIdentifier ASSIGN declValue=uintExpr   SEMICOLON;
+int64LiteralStmt:  varType=Int64Type  varName=declIdentifier ASSIGN declValue=intExpr    SEMICOLON;
+uInt64LiteralStmt: varType=UInt64Type varName=declIdentifier ASSIGN declValue=uintExpr   SEMICOLON;
+doubleLiteralStmt: varType=DoubleType varName=declIdentifier ASSIGN declValue=doubleExpr SEMICOLON;
+stringLiteralStmt: varType=StringType varName=declIdentifier ASSIGN declValue=String SEMICOLON;
 
 intExpr
   : '+' intExpr  
@@ -49,6 +50,12 @@ doubleExpr
   | DIGITS ('.' DIGITS)?
   ;
 
+declIdentifier
+  : Identifier ':' Identifier
+  | Identifier ':' String
+  | Identifier
+  ;
+
 // --------------------------------------------------------------------------------------
 // Define Resource Statements
 // --------------------------------------------------------------------------------------
@@ -57,26 +64,81 @@ defineResourceStmt
   | volatileResourceStmt
   ;
 
-namedResourceStmt: ResourceType Identifier ASSIGN resourceValue SEMICOLON;
-volatileResourceStmt: VolatileResourceType Identifier ASSIGN String SEMICOLON;
+namedResourceStmt:    ResourceType         resName=declIdentifier ASSIGN resCtx=resourceValue SEMICOLON;
+volatileResourceStmt: resType=VolatileResourceType resName=declIdentifier ASSIGN resVal=String SEMICOLON;
 
 resourceValue
-  : NULL
-  | CreateUUIDResource
-  | String
+  : resVal=NULL
+  | resVal=CreateUUIDResource
+  | resVal=String
   ;
 
 // --------------------------------------------------------------------------------------
 // Define Lookup Table
 // --------------------------------------------------------------------------------------
-lookupTableStmt: LookupTable Identifier '{' 
-    TableName ':' Identifier ',' COMMENT?
-    Key ':' identifierList ',' COMMENT?
-    Columns ':' identifierList COMMENT?
+lookupTableStmt: LookupTable lookupName=declIdentifier '{' 
+    COMMENT*
+    TableName ASSIGN tblStorageName=Identifier ',' 
+    COMMENT*
+    Key ASSIGN tblKeys=identifierList ',' 
+    COMMENT*
+    Columns ASSIGN tblColumns=identifierList 
+    COMMENT*
   '}' SEMICOLON;
 
-identifierList: '[' identifierSeq? ']';
-identifierSeq: Identifier (',' Identifier)* ;
+identifierList: '[' seq=identifierSeq? ']';
+identifierSeq: declIdentifier (',' declIdentifier)* ;
+
+// --------------------------------------------------------------------------------------
+// Define Jet Rule
+// --------------------------------------------------------------------------------------
+jetRuleStmt: '[' ruleName=Identifier ruleProperties* ']' ':' antecedent+ '->' consequent+ SEMICOLON ;
+ruleProperties: ',' key=Identifier ASSIGN valCtx=propertyValue ;
+propertyValue: ( val=String | val=TRUE | val=FALSE | intval=intExpr ) ;
+
+antecedent: n=NOT? '(' s=atom p=atom o=objectAtom ')' '.'? ( '[' f=exprTerm ']' '.'? )? ;
+consequent: '(' s=atom p=atom o=exprTerm ')' '.'? ;
+
+atom
+  : '?' Identifier
+  | declIdentifier
+  ;
+
+objectAtom
+  : atom
+  | Int32Type '(' intExpr ')'
+  | UInt32Type '(' uintExpr ')'
+  | Int64Type '(' intExpr ')'
+  | UInt64Type '(' uintExpr ')'
+  | DoubleType '(' doubleExpr ')'
+  | StringType '(' String ')'
+  | String
+  ;
+
+exprTerm
+  : lhs=exprTerm op=binaryOp rhs=exprTerm          # BinaryExprTerm
+  | '(' lhs=exprTerm op=binaryOp rhs=exprTerm ')'  # BinaryExprTerm2
+  | op=unaryOp '(' arg=exprTerm ')'                # UnaryExprTerm
+  | '(' op=unaryOp arg=exprTerm ')'                # UnaryExprTerm2
+  | op=unaryOp arg=exprTerm                        # UnaryExprTerm3
+  | ident=objectAtom                               # IdentExprTerm
+  | TRUE                                           # TrueExprTerm
+  | FALSE                                          # FalseExprTerm
+  ;
+
+binaryOp
+  : PLUS
+  | MINUS
+  | MUL
+  | DIV
+  | OR
+  | AND
+  ;
+
+unaryOp
+  : NOT
+  | TOTEXT
+  ;
 
 // ======================================================================================
 // Lexer section
@@ -92,22 +154,32 @@ ResourceType: 'resource';
 VolatileResourceType: 'volatile_resource';
 CreateUUIDResource: 'create_uuid_resource()';
 
+// Properties for lookup tables
 LookupTable: 'lookup_table';
-TableName: 'table_name';
-Key: 'key';
-Columns: 'columns';
+TableName: '$table_name';
+Key: '$key';
+Columns: '$columns';
+
+TRUE: 'true';
+FALSE: 'false';
+NOT: 'not';
+
+TOTEXT: 'toText';
 
 PLUS: '+';
 MINUS: '-';
+MUL: '*';
+DIV: '/';
+OR: 'or';
+AND: 'and';
+
 SEMICOLON: ';';
 ASSIGN: '=';
-NULL: ('null' | 'NULL' | 'Null');
+NULL: 'null';
 
-Identifier:	NONDIGIT (NONDIGIT | DIGITS)*;
-NONDIGIT: [a-zA-Z_];
+Identifier:	NONDIGIT ( NONDIGIT | DIGITS)*;
+fragment NONDIGIT: [a-zA-Z_];
 DIGITS: [0-9]+;
-
-// IdentifierList: '[' Identifier* ']';
 
 String: '"' Schar* '"';
 fragment Schar: ~ ["\\\r\n] | '\\"' ;

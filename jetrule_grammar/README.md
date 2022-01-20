@@ -89,7 +89,7 @@ meaning they are not part of the persistent model.
 #### Defining Resources
 Defining named resources:
 ```
-  resource nbr_providers = "nbr_providers", resource ck:Value = "ck:value";
+  resource nbr_providers = "nbr_providers", ck:Value = "ck:value";
 ```
 Defining resources for use as volatile properties:
 ```

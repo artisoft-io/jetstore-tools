@@ -1,7 +1,7 @@
 # Useful commands for developing JetRule language
 ## Generating Antlr4 Lexers and Parsers
 
-### Generatint the python visitor
+### Generating the python visitor
 Our main interest is to implement a python visitor for processing
 the generated parse tree. The command to generate the python
 parser is:
