@@ -1,5 +1,5 @@
 import sys
-from typing import Text
+from typing import Dict, Text
 import antlr4 as a4
 import json
 from py.JetRuleLexer import JetRuleLexer
@@ -122,20 +122,50 @@ class JetListener(JetRuleListener):
     if pos1>0:
       pos2 = str.find('"')
       if pos2 == pos1+1:
-        # print("escape", str, 'to', str.replace('"', ''))
         return str.replace('"', '')
     return str
 
+  # Function to identify the type of the triple atom
+  # This function require the use of escape function first, the call of escape
+  # is not included here to avoid duplication in function call
+  def parseObjectAtom(self, str:Text, kws: JetRuleParser.KeywordsContext) -> Dict[Text, Text]:
+    # possible inputs:
+    #   ?clm        -> {type: "var", id: "?clm"}
+    #   rdf:type    -> {type: "identifier", id: "rdf:type"}
+    #   localVal    -> {type: "identifier", id: "localVal"}
+    #   "XYZ"       -> {type: "text", value: "XYZ"}
+    #   text("XYZ") -> {type: "text", value: "XYZ"}
+    #   int(1)      -> {type: "int", value: "1"}
+    #   true        -> {type: "keyword", value: "true"}
+    if not str: return None
+    if str[0] == '?': return {'type': 'var', 'id': str}
+    if str[0] == '"': return {'type': 'text', 'id': str[1:-1]}
+    v = str.split('(')
+    if len(v) > 1:
+      w = {'type': v[0], 'value': v[1][0:-1]}
+      if v[1][0] == '"': return {'type': 'text', 'id': v[1][1:-2]}
+      return w
+    # Check if it's a keyword
+    if kws:
+      return {'type': "keyword", 'value': str}
+
+    # default is an identifier
+    return {'type': "identifier", 'value': str}
+
   # Exit a parse tree produced by JetRuleParser#antecedent.
   def exitAntecedent(self, ctx:JetRuleParser.AntecedentContext):
-    subject = self.escape(ctx.s.getText())
-    predicate = self.escape(ctx.p.getText())
-    self.ruleAntecedents.append({ 'isNot': True if ctx.n else False, 'triple':[subject, predicate, ctx.o.getText()], 'filter': ctx.f.expr if ctx.f else None })
+    subject = self.parseObjectAtom(self.escape(ctx.s.getText()), None)
+    predicate = self.parseObjectAtom(self.escape(ctx.p.getText()), None)
+    object = self.parseObjectAtom(ctx.o.getText(), ctx.o.kws)
+    antecedent = { 'isNot': True if ctx.n else False, 'triple':[subject, predicate, object] }
+    if ctx.f and ctx.f.expr:
+      antecedent['filter'] = ctx.f.expr
+    self.ruleAntecedents.append(antecedent)
 
   # Exit a parse tree produced by JetRuleParser#consequent.
   def exitConsequent(self, ctx:JetRuleParser.ConsequentContext):
-    subject = self.escape(ctx.s.getText())
-    predicate = self.escape(ctx.p.getText())
+    subject = self.parseObjectAtom(self.escape(ctx.s.getText()), None)
+    predicate = self.parseObjectAtom(self.escape(ctx.p.getText()), None)
     self.ruleConsequents.append({ 'triple':[subject, predicate, ctx.o.expr] })
 
   # Exit a parse tree produced by JetRuleParser#BinaryExprTerm.
@@ -148,28 +178,21 @@ class JetListener(JetRuleListener):
 
   # Exit a parse tree produced by JetRuleParser#UnaryExprTerm.
   def exitUnaryExprTerm(self, ctx:JetRuleParser.UnaryExprTermContext):
-    ctx.expr = {'type': 'unary', 'arg': ctx.arg.expr, 'op': ctx.op.getText()}
+    ctx.expr = {'type': 'unary', 'op': ctx.op.getText(), 'arg': ctx.arg.expr}
 
   # Exit a parse tree produced by JetRuleParser#UnaryExprTerm2.
   def exitUnaryExprTerm2(self, ctx:JetRuleParser.UnaryExprTerm2Context):
-    ctx.expr = {'type': 'unary', 'arg': ctx.arg.expr, 'op': ctx.op.getText()}
+    ctx.expr = {'type': 'unary', 'op': ctx.op.getText(), 'arg': ctx.arg.expr}
 
   # Exit a parse tree produced by JetRuleParser#UnaryExprTerm3.
   def exitUnaryExprTerm3(self, ctx:JetRuleParser.UnaryExprTerm3Context):
-    ctx.expr = {'type': 'unary', 'arg': ctx.arg.expr, 'op': ctx.op.getText()}
+    ctx.expr = {'type': 'unary', 'op': ctx.op.getText(), 'arg': ctx.arg.expr}
 
-  # Exit a parse tree produced by JetRuleParser#IdentExprTerm.
-  def exitIdentExprTerm(self, ctx:JetRuleParser.IdentExprTermContext):
+  # Exit a parse tree produced by JetRuleParser#ObjectAtomExprTerm.
+  def exitObjectAtomExprTerm(self, ctx:JetRuleParser.ObjectAtomExprTermContext):
+    # ctx.ident is type ObjectAtomContext
     ident = self.escape(ctx.ident.getText())
-    ctx.expr = {'type': 'ident', 'id': ident}
-
-  # Exit a parse tree produced by JetRuleParser#TrueExprTerm.
-  def exitTrueExprTerm(self, ctx:JetRuleParser.TrueExprTermContext):
-    ctx.expr = {'type': 'keyword', 'id': 'true'}
-
-  # Exit a parse tree produced by JetRuleParser#FalseExprTerm.
-  def exitFalseExprTerm(self, ctx:JetRuleParser.FalseExprTermContext):
-    ctx.expr = {'type': 'keyword', 'id': 'false'}
+    ctx.expr = self.parseObjectAtom(ident, ctx.ident.kws)
 
 if __name__ == "__main__":
   

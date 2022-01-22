@@ -105,14 +105,20 @@ atom
   ;
 
 objectAtom
-  : atom
-  | Int32Type '(' intExpr ')'
-  | UInt32Type '(' uintExpr ')'
-  | Int64Type '(' intExpr ')'
-  | UInt64Type '(' uintExpr ')'
+  : atom                         
+  | Int32Type '(' intExpr ')'    
+  | UInt32Type '(' uintExpr ')'  
+  | Int64Type '(' intExpr ')'    
+  | UInt64Type '(' uintExpr ')'  
   | DoubleType '(' doubleExpr ')'
-  | StringType '(' String ')'
-  | String
+  | StringType '(' String ')'    
+  | String                       
+  | kws=keywords                 
+  ;
+
+keywords
+  : TRUE  
+  | FALSE 
   ;
 
 exprTerm
@@ -121,9 +127,7 @@ exprTerm
   | op=unaryOp '(' arg=exprTerm ')'                # UnaryExprTerm
   | '(' op=unaryOp arg=exprTerm ')'                # UnaryExprTerm2
   | op=unaryOp arg=exprTerm                        # UnaryExprTerm3
-  | ident=objectAtom                               # IdentExprTerm
-  | TRUE                                           # TrueExprTerm
-  | FALSE                                          # FalseExprTerm
+  | ident=objectAtom                               # ObjectAtomExprTerm
   ;
 
 binaryOp

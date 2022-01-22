@@ -110,8 +110,11 @@ lookup_table MSK_DRG_TRIGGER {
 [Rule7]: 
   (?clm01 has_code int(1)).
   (?clm01 has_str "value").
+  (?clm01 hasTrue true).
   ->
-  (?clm01 usi:"lookup_table" true)
+  (?clm01 usi:"lookup_table" true).
+  (?clm01 has_literal int(1)).
+  (?clm01 has_expr (int(1) + long(4)))
 ;
 
 # That's it for now!

@@ -134,29 +134,46 @@
                 {
                     "isNot": false,
                     "triple": [
-                        "?clm01",
-                        "rdf:type",
-                        "usi:Claim"
-                    ],
-                    "filter": null
+                        {
+                            "type": "var",
+                            "id": "?clm01"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "rdf:type"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "usi:Claim"
+                        }
+                    ]
                 },
                 {
                     "isNot": true,
                     "triple": [
-                        "?clm01",
-                        "usi:hasDRG",
-                        "?drg"
+                        {
+                            "type": "var",
+                            "id": "?clm01"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "usi:hasDRG"
+                        },
+                        {
+                            "type": "var",
+                            "id": "?drg"
+                        }
                     ],
                     "filter": {
                         "type": "binary",
                         "lhs": {
                             "type": "keyword",
-                            "id": "true"
+                            "value": "true"
                         },
                         "op": "and",
                         "rhs": {
                             "type": "keyword",
-                            "id": "false"
+                            "value": "false"
                         }
                     }
                 }
@@ -164,11 +181,17 @@
             "consequents": [
                 {
                     "triple": [
-                        "?clm01",
-                        "rdf:type",
                         {
-                            "type": "ident",
-                            "id": "usi:SpecialClaim"
+                            "type": "var",
+                            "id": "?clm01"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "rdf:type"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "usi:SpecialClaim"
                         }
                     ]
                 }
@@ -181,35 +204,44 @@
                 {
                     "isNot": false,
                     "triple": [
-                        "?clm01",
-                        "rdf:type",
-                        "usi:Claim"
+                        {
+                            "type": "var",
+                            "id": "?clm01"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "rdf:type"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "usi:Claim"
+                        }
                     ],
                     "filter": {
                         "type": "binary",
                         "lhs": {
                             "type": "binary",
                             "lhs": {
-                                "type": "ident",
+                                "type": "var",
                                 "id": "?a1"
                             },
                             "op": "+",
                             "rhs": {
-                                "type": "ident",
-                                "id": "b1"
+                                "type": "identifier",
+                                "value": "b1"
                             }
                         },
                         "op": "*",
                         "rhs": {
                             "type": "binary",
                             "lhs": {
-                                "type": "ident",
+                                "type": "var",
                                 "id": "?a2"
                             },
                             "op": "+",
                             "rhs": {
-                                "type": "ident",
-                                "id": "b2"
+                                "type": "identifier",
+                                "value": "b2"
                             }
                         }
                     }
@@ -217,27 +249,36 @@
                 {
                     "isNot": false,
                     "triple": [
-                        "?clm01",
-                        "rdf:type",
-                        "usi:Claim"
+                        {
+                            "type": "var",
+                            "id": "?clm01"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "rdf:type"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "usi:Claim"
+                        }
                     ],
                     "filter": {
                         "type": "binary",
                         "lhs": {
                             "type": "binary",
                             "lhs": {
-                                "type": "ident",
+                                "type": "var",
                                 "id": "?a1"
                             },
                             "op": "or",
                             "rhs": {
-                                "type": "ident",
-                                "id": "b1"
+                                "type": "identifier",
+                                "value": "b1"
                             }
                         },
                         "op": "and",
                         "rhs": {
-                            "type": "ident",
+                            "type": "var",
                             "id": "?a2"
                         }
                     }
@@ -246,21 +287,33 @@
             "consequents": [
                 {
                     "triple": [
-                        "?clm01",
-                        "rdf:type",
                         {
-                            "type": "ident",
-                            "id": "usi:SpecialClaim"
+                            "type": "var",
+                            "id": "?clm01"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "rdf:type"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "usi:SpecialClaim"
                         }
                     ]
                 },
                 {
                     "triple": [
-                        "?clm02",
-                        "rdf:type",
                         {
-                            "type": "ident",
-                            "id": "usi:SpecialClaim"
+                            "type": "var",
+                            "id": "?clm02"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "rdf:type"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "usi:SpecialClaim"
                         }
                     ]
                 }
@@ -273,36 +326,45 @@
                 {
                     "isNot": false,
                     "triple": [
-                        "?clm01",
-                        "has_code",
-                        "?code"
+                        {
+                            "type": "var",
+                            "id": "?clm01"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "has_code"
+                        },
+                        {
+                            "type": "var",
+                            "id": "?code"
+                        }
                     ],
                     "filter": {
                         "type": "binary",
                         "lhs": {
                             "type": "unary",
+                            "op": "not",
                             "arg": {
                                 "type": "binary",
                                 "lhs": {
-                                    "type": "ident",
+                                    "type": "var",
                                     "id": "?a1"
                                 },
                                 "op": "or",
                                 "rhs": {
-                                    "type": "ident",
-                                    "id": "b1"
+                                    "type": "identifier",
+                                    "value": "b1"
                                 }
-                            },
-                            "op": "not"
+                            }
                         },
                         "op": "and",
                         "rhs": {
                             "type": "unary",
+                            "op": "not",
                             "arg": {
-                                "type": "ident",
+                                "type": "var",
                                 "id": "?a2"
-                            },
-                            "op": "not"
+                            }
                         }
                     }
                 }
@@ -310,17 +372,23 @@
             "consequents": [
                 {
                     "triple": [
-                        "?clm01",
-                        "value",
+                        {
+                            "type": "var",
+                            "id": "?clm01"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "value"
+                        },
                         {
                             "type": "binary",
                             "lhs": {
-                                "type": "ident",
+                                "type": "var",
                                 "id": "?a1"
                             },
                             "op": "+",
                             "rhs": {
-                                "type": "ident",
+                                "type": "var",
                                 "id": "?b2"
                             }
                         }
@@ -328,17 +396,23 @@
                 },
                 {
                     "triple": [
-                        "?clm01",
-                        "value2",
+                        {
+                            "type": "var",
+                            "id": "?clm01"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "value2"
+                        },
                         {
                             "type": "binary",
                             "lhs": {
-                                "type": "ident",
+                                "type": "var",
                                 "id": "?a1"
                             },
                             "op": "+",
                             "rhs": {
-                                "type": "ident",
+                                "type": "var",
                                 "id": "?b2"
                             }
                         }
@@ -346,15 +420,21 @@
                 },
                 {
                     "triple": [
-                        "?clm01",
-                        "value2",
+                        {
+                            "type": "var",
+                            "id": "?clm01"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "value2"
+                        },
                         {
                             "type": "unary",
+                            "op": "not",
                             "arg": {
-                                "type": "ident",
+                                "type": "var",
                                 "id": "?b2"
-                            },
-                            "op": "not"
+                            }
                         }
                     ]
                 }
@@ -367,21 +447,35 @@
                 {
                     "isNot": false,
                     "triple": [
-                        "?clm01",
-                        "has_code",
-                        "?code"
-                    ],
-                    "filter": null
+                        {
+                            "type": "var",
+                            "id": "?clm01"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "has_code"
+                        },
+                        {
+                            "type": "var",
+                            "id": "?code"
+                        }
+                    ]
                 }
             ],
             "consequents": [
                 {
                     "triple": [
-                        "?clm01",
-                        "usi:lookup_table",
+                        {
+                            "type": "var",
+                            "id": "?clm01"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "usi:lookup_table"
+                        },
                         {
                             "type": "keyword",
-                            "id": "true"
+                            "value": "true"
                         }
                     ]
                 }
@@ -394,30 +488,52 @@
                 {
                     "isNot": false,
                     "triple": [
-                        "?clm01",
-                        "has_code",
-                        "r1"
-                    ],
-                    "filter": null
+                        {
+                            "type": "var",
+                            "id": "?clm01"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "has_code"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "r1"
+                        }
+                    ]
                 },
                 {
                     "isNot": false,
                     "triple": [
-                        "?clm01",
-                        "has_str",
-                        "r2"
-                    ],
-                    "filter": null
+                        {
+                            "type": "var",
+                            "id": "?clm01"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "has_str"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "r2"
+                        }
+                    ]
                 }
             ],
             "consequents": [
                 {
                     "triple": [
-                        "?clm01",
-                        "usi:lookup_table",
                         {
-                            "type": "ident",
-                            "id": "\"valueX\""
+                            "type": "var",
+                            "id": "?clm01"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "usi:lookup_table"
+                        },
+                        {
+                            "type": "text",
+                            "id": "valueX"
                         }
                     ]
                 }
@@ -430,30 +546,109 @@
                 {
                     "isNot": false,
                     "triple": [
-                        "?clm01",
-                        "has_code",
-                        "int(1)"
-                    ],
-                    "filter": null
+                        {
+                            "type": "var",
+                            "id": "?clm01"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "has_code"
+                        },
+                        {
+                            "type": "int",
+                            "value": "1"
+                        }
+                    ]
                 },
                 {
                     "isNot": false,
                     "triple": [
-                        "?clm01",
-                        "has_str",
-                        "\"value\""
-                    ],
-                    "filter": null
+                        {
+                            "type": "var",
+                            "id": "?clm01"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "has_str"
+                        },
+                        {
+                            "type": "text",
+                            "id": "value"
+                        }
+                    ]
+                },
+                {
+                    "isNot": false,
+                    "triple": [
+                        {
+                            "type": "var",
+                            "id": "?clm01"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "hasTrue"
+                        },
+                        {
+                            "type": "keyword",
+                            "value": "true"
+                        }
+                    ]
                 }
             ],
             "consequents": [
                 {
                     "triple": [
-                        "?clm01",
-                        "usi:lookup_table",
+                        {
+                            "type": "var",
+                            "id": "?clm01"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "usi:lookup_table"
+                        },
                         {
                             "type": "keyword",
-                            "id": "true"
+                            "value": "true"
+                        }
+                    ]
+                },
+                {
+                    "triple": [
+                        {
+                            "type": "var",
+                            "id": "?clm01"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "has_literal"
+                        },
+                        {
+                            "type": "int",
+                            "value": "1"
+                        }
+                    ]
+                },
+                {
+                    "triple": [
+                        {
+                            "type": "var",
+                            "id": "?clm01"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "has_expr"
+                        },
+                        {
+                            "type": "binary",
+                            "lhs": {
+                                "type": "int",
+                                "value": "1"
+                            },
+                            "op": "+",
+                            "rhs": {
+                                "type": "long",
+                                "value": "4"
+                            }
                         }
                     ]
                 }
