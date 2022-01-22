@@ -128,7 +128,7 @@
             "properties": {
                 "s": "+100",
                 "o": "false",
-                "tag": "\"USI\""
+                "tag": "USI"
             },
             "antecedents": [
                 {

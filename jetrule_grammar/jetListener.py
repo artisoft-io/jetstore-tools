@@ -111,7 +111,7 @@ class JetListener(JetRuleListener):
   def exitRuleProperties(self, ctx:JetRuleParser.RulePropertiesContext):
     key = ctx.key.text
     val = ctx.valCtx.val
-    val = val.text if val else ctx.valCtx.intval.getText()
+    val = self.escapeString(val.text) if val else ctx.valCtx.intval.getText()
     self.ruleProps[key] = val
 
   # Function to remove the escape \" for resource with name clashing reserved keywords
