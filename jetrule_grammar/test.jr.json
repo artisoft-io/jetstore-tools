@@ -13,69 +13,69 @@
         {
             "type": "text",
             "id": "NOT_IN_CONTRACT",
-            "value": "\"NOT COVERED IN CONTRACT\""
+            "value": "NOT COVERED IN CONTRACT"
         },
         {
             "type": "text",
             "id": "EXCLUDED_STATE",
-            "value": "\"STATE\""
+            "value": "STATE"
         },
         {
             "type": "text",
             "id": "HH_AUTH",
-            "value": "\"HH_AUTH\""
+            "value": "HH_AUTH"
         },
         {
             "type": "text",
             "id": "EXCL_HH_AUTH",
-            "value": "\"HH AUTH\""
+            "value": "HH AUTH"
         },
         {
             "type": "text",
             "id": "EXCLUDED_COUNTY",
-            "value": "\"COUNTY\""
+            "value": "COUNTY"
         },
         {
             "type": "text",
             "id": "EXCLUDED_TIN",
-            "value": "\"TIN\""
+            "value": "TIN"
         },
         {
             "type": "text",
             "id": "EXCLUDED_TIN_STATE",
-            "value": "\"TIN/STATE\""
+            "value": "TIN/STATE"
         },
         {
             "type": "text",
             "id": "EXCL_MER_COM",
-            "value": "\"MERGED COMPONENTS\""
+            "value": "MERGED COMPONENTS"
         },
         {
             "type": "text",
             "id": "EXCL_AMT_PAID",
-            "value": "\"MERGED MARKET CHARGE BACK\""
+            "value": "MERGED \"MARKET\" CHARGE BACK"
         },
         {
             "type": "text",
             "id": "EXCLUDED_GROUPID",
-            "value": "\"GROUPID\""
+            "value": "GROUPID"
         },
         {
             "type": "text",
             "id": "EXCLUDED_MODALITY",
-            "value": "\"MODALITY\""
+            "value": "MODALITY"
         }
     ],
     "resources": [
         {
             "type": "resource",
             "id": "medicareRateObjTC1",
-            "value": "\"_0:medicareRateObjTC1\""
+            "value": "_0:medicareRateObjTC1"
         },
         {
             "type": "resource",
             "id": "medicareRateObjTC2",
-            "value": "\"_0:medicareRateObjTC2\""
+            "value": "_0:medicareRateObjTC2"
         },
         {
             "type": "resource",
@@ -90,22 +90,22 @@
         {
             "type": "resource",
             "id": "usi:key",
-            "value": "\"usi:key\""
+            "value": "usi:key"
         },
         {
             "type": "resource",
-            "id": "usi:\"lookup_table\"",
-            "value": "\"usi:key\""
+            "id": "usi:lookup_table",
+            "value": "usi:key"
         },
         {
             "type": "volatile_resource",
             "id": "medicareRateObj261",
-            "value": "\"medicareRateObj261\""
+            "value": "medicareRateObj261"
         },
         {
             "type": "volatile_resource",
             "id": "medicareRateObj262",
-            "value": "\"medicareRateObj262\""
+            "value": "medicareRateObj262"
         }
     ],
     "lookup_tables": [
@@ -534,6 +534,38 @@
                         {
                             "type": "text",
                             "id": "valueX"
+                        }
+                    ]
+                },
+                {
+                    "triple": [
+                        {
+                            "type": "var",
+                            "id": "?clm01"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "usi:market"
+                        },
+                        {
+                            "type": "text",
+                            "id": "MERGED \"MARKET\" CHARGE BACK"
+                        }
+                    ]
+                },
+                {
+                    "triple": [
+                        {
+                            "type": "var",
+                            "id": "?clm01"
+                        },
+                        {
+                            "type": "identifier",
+                            "value": "usi:market"
+                        },
+                        {
+                            "type": "text",
+                            "id": "MERGED \"MARKET\" CHARGE BACK"
                         }
                     ]
                 }

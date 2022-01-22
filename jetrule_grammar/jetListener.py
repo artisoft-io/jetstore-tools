@@ -71,16 +71,16 @@ class JetListener(JetRuleListener):
     self.literals.append({ 'type': ctx.varType.text, 'id': ctx.varName.getText(), 'value':  ctx.declValue.getText()})
 
   def exitStringLiteralStmt(self, ctx:JetRuleParser.StringLiteralStmtContext):
-    self.literals.append({ 'type': ctx.varType.text, 'id': ctx.varName.getText(), 'value':  ctx.declValue.text})
+    self.literals.append({ 'type': ctx.varType.text, 'id': ctx.varName.getText(), 'value':  self.escapeString(ctx.declValue.text)})
 
   # =====================================================================================
   # Resources
   # -------------------------------------------------------------------------------------
   def exitNamedResourceStmt(self, ctx:JetRuleParser.NamedResourceStmtContext):
-    self.resources.append({ 'type': 'resource', 'id': ctx.resName.getText(), 'value':  ctx.resCtx.resVal.text})
+    self.resources.append({ 'type': 'resource', 'id': self.escape(ctx.resName.getText()), 'value':  self.escapeString(ctx.resCtx.resVal.text)})
 
   def exitVolatileResourceStmt(self, ctx:JetRuleParser.VolatileResourceStmtContext):
-    self.resources.append({ 'type': 'volatile_resource', 'id': ctx.resName.getText(), 'value': ctx.resVal.text })
+    self.resources.append({ 'type': 'volatile_resource', 'id': self.escape(ctx.resName.getText()), 'value': self.escapeString(ctx.resVal.text) })
 
   # =====================================================================================
   # Lookup Tables
@@ -125,6 +125,13 @@ class JetListener(JetRuleListener):
         return str.replace('"', '')
     return str
 
+  # Function to escape String tokens
+  def escapeString(self, str: Text) -> Text:
+    # make sure it's a String
+    if not str or str[0]!='"':
+      return str
+    return str.replace('\\"', '"')[1:-1]
+
   # Function to identify the type of the triple atom
   # This function require the use of escape function first, the call of escape
   # is not included here to avoid duplication in function call
@@ -139,11 +146,11 @@ class JetListener(JetRuleListener):
     #   true        -> {type: "keyword", value: "true"}
     if not str: return None
     if str[0] == '?': return {'type': 'var', 'id': str}
-    if str[0] == '"': return {'type': 'text', 'id': str[1:-1]}
+    if str[0] == '"': return {'type': 'text', 'id': self.escapeString(str)}
     v = str.split('(')
     if len(v) > 1:
       w = {'type': v[0], 'value': v[1][0:-1]}
-      if v[1][0] == '"': return {'type': 'text', 'id': v[1][1:-2]}
+      if v[1][0] == '"': return {'type': 'text', 'id': self.escapeString(v[1])[:-1]}
       return w
     # Check if it's a keyword
     if kws:
