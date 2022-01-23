@@ -149,7 +149,8 @@
                             "value": "usi:Claim"
                         }
                     ],
-                    "normalizedLabel": "(?x1 rdf:type usi:Claim)"
+                    "normalizedLabel": "(?x1 rdf:type usi:Claim)",
+                    "label": "(?clm01 rdf:type usi:Claim)"
                 },
                 {
                     "type": "antecedent",
@@ -192,7 +193,8 @@
                             "value": "1"
                         }
                     },
-                    "normalizedLabel": "not(?x1 usi:hasDRG ?x2).[(?x1 + ?x2) + int(1)]"
+                    "normalizedLabel": "not(?x1 usi:hasDRG ?x2).[(?x1 + ?x2) + int(1)]",
+                    "label": "not(?clm01 usi:hasDRG ?drg).[(?clm01 + ?drg) + int(1)]"
                 }
             ],
             "consequents": [
@@ -213,7 +215,8 @@
                             "value": "usi:SpecialClaim"
                         }
                     ],
-                    "normalizedLabel": "(?x1 rdf:type usi:SpecialClaim)"
+                    "normalizedLabel": "(?x1 rdf:type usi:SpecialClaim)",
+                    "label": "(?clm01 rdf:type usi:SpecialClaim)"
                 },
                 {
                     "type": "consequent",
@@ -233,10 +236,12 @@
                             "label": "?drg"
                         }
                     ],
-                    "normalizedLabel": "(?x1 xyz ?x2)"
+                    "normalizedLabel": "(?x1 xyz ?x2)",
+                    "label": "(?clm01 xyz ?drg)"
                 }
             ],
-            "normalizedLabel": "(?x1 rdf:type usi:Claim).not(?x1 usi:hasDRG ?x2).[(?x1 + ?x2) + int(1)] -> (?x1 rdf:type usi:SpecialClaim).(?x1 xyz ?x2)"
+            "normalizedLabel": "(?x1 rdf:type usi:Claim).not(?x1 usi:hasDRG ?x2).[(?x1 + ?x2) + int(1)] -> (?x1 rdf:type usi:SpecialClaim).(?x1 xyz ?x2)",
+            "label": "(?clm01 rdf:type usi:Claim).not(?clm01 usi:hasDRG ?drg).[(?clm01 + ?drg) + int(1)] -> (?clm01 rdf:type usi:SpecialClaim).(?clm01 xyz ?drg)"
         },
         {
             "name": "Rule2",
@@ -264,7 +269,8 @@
                             "value": "usi:Claim"
                         }
                     ],
-                    "normalizedLabel": "(?x1 rdf:type usi:Claim)"
+                    "normalizedLabel": "(?x1 rdf:type usi:Claim)",
+                    "label": "(?clm01 rdf:type usi:Claim)"
                 },
                 {
                     "type": "antecedent",
@@ -297,7 +303,8 @@
                             "value": "false"
                         }
                     },
-                    "normalizedLabel": "not(?x1 usi:hasDRG ?x2).[true and false]"
+                    "normalizedLabel": "not(?x1 usi:hasDRG ?x2).[true and false]",
+                    "label": "not(?clm01 usi:hasDRG ?drg).[true and false]"
                 }
             ],
             "consequents": [
@@ -318,10 +325,12 @@
                             "value": "usi:SpecialClaim"
                         }
                     ],
-                    "normalizedLabel": "(?x1 rdf:type usi:SpecialClaim)"
+                    "normalizedLabel": "(?x1 rdf:type usi:SpecialClaim)",
+                    "label": "(?clm01 rdf:type usi:SpecialClaim)"
                 }
             ],
-            "normalizedLabel": "(?x1 rdf:type usi:Claim).not(?x1 usi:hasDRG ?x2).[true and false] -> (?x1 rdf:type usi:SpecialClaim)"
+            "normalizedLabel": "(?x1 rdf:type usi:Claim).not(?x1 usi:hasDRG ?x2).[true and false] -> (?x1 rdf:type usi:SpecialClaim)",
+            "label": "(?clm01 rdf:type usi:Claim).not(?clm01 usi:hasDRG ?drg).[true and false] -> (?clm01 rdf:type usi:SpecialClaim)"
         },
         {
             "name": "Rule3",
@@ -375,7 +384,8 @@
                             }
                         }
                     },
-                    "normalizedLabel": "(?x1 rdf:type usi:Claim).[(?x2 + b1) * (?x3 + b2)]"
+                    "normalizedLabel": "(?x1 rdf:type usi:Claim).[(?x2 + b1) * (?x3 + b2)]",
+                    "label": "(?clm01 rdf:type usi:Claim).[(?a1 + b1) * (?a2 + b2)]"
                 },
                 {
                     "type": "antecedent",
@@ -417,7 +427,8 @@
                             "label": "?a2"
                         }
                     },
-                    "normalizedLabel": "(?x1 rdf:type usi:Claim).[(?x2 or b1) and ?x3]"
+                    "normalizedLabel": "(?x1 rdf:type usi:Claim).[(?x2 or b1) and ?x3]",
+                    "label": "(?clm01 rdf:type usi:Claim).[(?a1 or b1) and ?a2]"
                 }
             ],
             "consequents": [
@@ -438,7 +449,8 @@
                             "value": "usi:SpecialClaim"
                         }
                     ],
-                    "normalizedLabel": "(?x1 rdf:type usi:SpecialClaim)"
+                    "normalizedLabel": "(?x1 rdf:type usi:SpecialClaim)",
+                    "label": "(?clm01 rdf:type usi:SpecialClaim)"
                 },
                 {
                     "type": "consequent",
@@ -457,10 +469,12 @@
                             "value": "usi:SpecialClaim"
                         }
                     ],
-                    "normalizedLabel": "(?x4 rdf:type usi:SpecialClaim)"
+                    "normalizedLabel": "(?x4 rdf:type usi:SpecialClaim)",
+                    "label": "(?clm02 rdf:type usi:SpecialClaim)"
                 }
             ],
-            "normalizedLabel": "(?x1 rdf:type usi:Claim).[(?x2 + b1) * (?x3 + b2)].(?x1 rdf:type usi:Claim).[(?x2 or b1) and ?x3] -> (?x1 rdf:type usi:SpecialClaim).(?x4 rdf:type usi:SpecialClaim)"
+            "normalizedLabel": "(?x1 rdf:type usi:Claim).[(?x2 + b1) * (?x3 + b2)].(?x1 rdf:type usi:Claim).[(?x2 or b1) and ?x3] -> (?x1 rdf:type usi:SpecialClaim).(?x4 rdf:type usi:SpecialClaim)",
+            "label": "(?clm01 rdf:type usi:Claim).[(?a1 + b1) * (?a2 + b2)].(?clm01 rdf:type usi:Claim).[(?a1 or b1) and ?a2] -> (?clm01 rdf:type usi:SpecialClaim).(?clm02 rdf:type usi:SpecialClaim)"
         },
         {
             "name": "Rule4",
@@ -515,7 +529,8 @@
                             }
                         }
                     },
-                    "normalizedLabel": "(?x1 has_code ?x2).[(not (?x3 or b1)) and (not ?x4)]"
+                    "normalizedLabel": "(?x1 has_code ?x2).[(not (?x3 or b1)) and (not ?x4)]",
+                    "label": "(?clm01 has_code ?code).[(not (?a1 or b1)) and (not ?a2)]"
                 }
             ],
             "consequents": [
@@ -546,7 +561,8 @@
                             }
                         }
                     ],
-                    "normalizedLabel": "(?x1 value ?x3 + ?x5)"
+                    "normalizedLabel": "(?x1 value ?x3 + ?x5)",
+                    "label": "(?clm01 value ?a1 + ?b2)"
                 },
                 {
                     "type": "consequent",
@@ -575,7 +591,8 @@
                             }
                         }
                     ],
-                    "normalizedLabel": "(?x1 value2 ?x3 + ?x5)"
+                    "normalizedLabel": "(?x1 value2 ?x3 + ?x5)",
+                    "label": "(?clm01 value2 ?a1 + ?b2)"
                 },
                 {
                     "type": "consequent",
@@ -599,10 +616,12 @@
                             }
                         }
                     ],
-                    "normalizedLabel": "(?x1 value2 not ?x5)"
+                    "normalizedLabel": "(?x1 value2 not ?x5)",
+                    "label": "(?clm01 value2 not ?b2)"
                 }
             ],
-            "normalizedLabel": "(?x1 has_code ?x2).[(not (?x3 or b1)) and (not ?x4)] -> (?x1 value ?x3 + ?x5).(?x1 value2 ?x3 + ?x5).(?x1 value2 not ?x5)"
+            "normalizedLabel": "(?x1 has_code ?x2).[(not (?x3 or b1)) and (not ?x4)] -> (?x1 value ?x3 + ?x5).(?x1 value2 ?x3 + ?x5).(?x1 value2 not ?x5)",
+            "label": "(?clm01 has_code ?code).[(not (?a1 or b1)) and (not ?a2)] -> (?clm01 value ?a1 + ?b2).(?clm01 value2 ?a1 + ?b2).(?clm01 value2 not ?b2)"
         },
         {
             "name": "Rule5",
@@ -627,7 +646,8 @@
                             "label": "?code"
                         }
                     ],
-                    "normalizedLabel": "(?x1 has_code ?x2)"
+                    "normalizedLabel": "(?x1 has_code ?x2)",
+                    "label": "(?clm01 has_code ?code)"
                 }
             ],
             "consequents": [
@@ -648,10 +668,12 @@
                             "value": "true"
                         }
                     ],
-                    "normalizedLabel": "(?x1 usi:lookup_table true)"
+                    "normalizedLabel": "(?x1 usi:lookup_table true)",
+                    "label": "(?clm01 usi:lookup_table true)"
                 }
             ],
-            "normalizedLabel": "(?x1 has_code ?x2) -> (?x1 usi:lookup_table true)"
+            "normalizedLabel": "(?x1 has_code ?x2) -> (?x1 usi:lookup_table true)",
+            "label": "(?clm01 has_code ?code) -> (?clm01 usi:lookup_table true)"
         },
         {
             "name": "Rule6",
@@ -675,7 +697,8 @@
                             "value": "r1"
                         }
                     ],
-                    "normalizedLabel": "(?x1 has_code r1)"
+                    "normalizedLabel": "(?x1 has_code r1)",
+                    "label": "(?clm01 has_code r1)"
                 },
                 {
                     "type": "antecedent",
@@ -695,7 +718,8 @@
                             "value": "r2"
                         }
                     ],
-                    "normalizedLabel": "(?x1 has_str r2)"
+                    "normalizedLabel": "(?x1 has_str r2)",
+                    "label": "(?clm01 has_str r2)"
                 }
             ],
             "consequents": [
@@ -716,7 +740,8 @@
                             "id": "valueX"
                         }
                     ],
-                    "normalizedLabel": "(?x1 usi:lookup_table \"valueX\")"
+                    "normalizedLabel": "(?x1 usi:lookup_table \"valueX\")",
+                    "label": "(?clm01 usi:lookup_table \"valueX\")"
                 },
                 {
                     "type": "consequent",
@@ -735,7 +760,8 @@
                             "id": "MERGED \"MARKET\" CHARGE BACK"
                         }
                     ],
-                    "normalizedLabel": "(?x1 usi:market \"MERGED \"MARKET\" CHARGE BACK\")"
+                    "normalizedLabel": "(?x1 usi:market \"MERGED \"MARKET\" CHARGE BACK\")",
+                    "label": "(?clm01 usi:market \"MERGED \"MARKET\" CHARGE BACK\")"
                 },
                 {
                     "type": "consequent",
@@ -754,10 +780,12 @@
                             "id": "MERGED \"MARKET\" CHARGE BACK"
                         }
                     ],
-                    "normalizedLabel": "(?x1 usi:market \"MERGED \"MARKET\" CHARGE BACK\")"
+                    "normalizedLabel": "(?x1 usi:market \"MERGED \"MARKET\" CHARGE BACK\")",
+                    "label": "(?clm01 usi:market \"MERGED \"MARKET\" CHARGE BACK\")"
                 }
             ],
-            "normalizedLabel": "(?x1 has_code r1).(?x1 has_str r2) -> (?x1 usi:lookup_table \"valueX\").(?x1 usi:market \"MERGED \"MARKET\" CHARGE BACK\").(?x1 usi:market \"MERGED \"MARKET\" CHARGE BACK\")"
+            "normalizedLabel": "(?x1 has_code r1).(?x1 has_str r2) -> (?x1 usi:lookup_table \"valueX\").(?x1 usi:market \"MERGED \"MARKET\" CHARGE BACK\").(?x1 usi:market \"MERGED \"MARKET\" CHARGE BACK\")",
+            "label": "(?clm01 has_code r1).(?clm01 has_str r2) -> (?clm01 usi:lookup_table \"valueX\").(?clm01 usi:market \"MERGED \"MARKET\" CHARGE BACK\").(?clm01 usi:market \"MERGED \"MARKET\" CHARGE BACK\")"
         },
         {
             "name": "Rule7",
@@ -781,7 +809,8 @@
                             "value": "1"
                         }
                     ],
-                    "normalizedLabel": "(?x1 has_code int(1))"
+                    "normalizedLabel": "(?x1 has_code int(1))",
+                    "label": "(?clm01 has_code int(1))"
                 },
                 {
                     "type": "antecedent",
@@ -801,7 +830,8 @@
                             "id": "value"
                         }
                     ],
-                    "normalizedLabel": "(?x1 has_str \"value\")"
+                    "normalizedLabel": "(?x1 has_str \"value\")",
+                    "label": "(?clm01 has_str \"value\")"
                 },
                 {
                     "type": "antecedent",
@@ -821,7 +851,8 @@
                             "value": "true"
                         }
                     ],
-                    "normalizedLabel": "(?x1 hasTrue true)"
+                    "normalizedLabel": "(?x1 hasTrue true)",
+                    "label": "(?clm01 hasTrue true)"
                 }
             ],
             "consequents": [
@@ -842,7 +873,8 @@
                             "value": "true"
                         }
                     ],
-                    "normalizedLabel": "(?x1 usi:lookup_table true)"
+                    "normalizedLabel": "(?x1 usi:lookup_table true)",
+                    "label": "(?clm01 usi:lookup_table true)"
                 },
                 {
                     "type": "consequent",
@@ -861,7 +893,8 @@
                             "value": "1"
                         }
                     ],
-                    "normalizedLabel": "(?x1 has_literal int(1))"
+                    "normalizedLabel": "(?x1 has_literal int(1))",
+                    "label": "(?clm01 has_literal int(1))"
                 },
                 {
                     "type": "consequent",
@@ -888,10 +921,12 @@
                             }
                         }
                     ],
-                    "normalizedLabel": "(?x1 has_expr int(1) + long(4))"
+                    "normalizedLabel": "(?x1 has_expr int(1) + long(4))",
+                    "label": "(?clm01 has_expr int(1) + long(4))"
                 }
             ],
-            "normalizedLabel": "(?x1 has_code int(1)).(?x1 has_str \"value\").(?x1 hasTrue true) -> (?x1 usi:lookup_table true).(?x1 has_literal int(1)).(?x1 has_expr int(1) + long(4))"
+            "normalizedLabel": "(?x1 has_code int(1)).(?x1 has_str \"value\").(?x1 hasTrue true) -> (?x1 usi:lookup_table true).(?x1 has_literal int(1)).(?x1 has_expr int(1) + long(4))",
+            "label": "(?clm01 has_code int(1)).(?clm01 has_str \"value\").(?clm01 hasTrue true) -> (?clm01 usi:lookup_table true).(?clm01 has_literal int(1)).(?clm01 has_expr int(1) + long(4))"
         }
     ]
 }

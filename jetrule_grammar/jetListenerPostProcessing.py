@@ -55,7 +55,13 @@ class JetRulesPostProcessor:
 
   # Augment rule's antecedents and consequents with
   # a label using the normalized variables
+  def addLabels(self):
+    return self._addLabels('label', False)
+
   def addNormalizedLabels(self):
+    return self._addLabels('normalizedLabel', True)
+
+  def _addLabels(self, label_name: Text, useNormalizedVar: Boolean):
     if not self.jetRules: raise Exception("Invalid jetRules structure: ",self.jetRules)
     rules = self.jetRules.get('jet_rules')
     if not rules: raise Exception("Invalid jetRules structure: ",self.jetRules)
@@ -65,8 +71,8 @@ class JetRulesPostProcessor:
       label = ''
       isFirst = True
       for item in rule.get('antecedents', []):
-        normalizedLabel = self.makeLabel(item)
-        item['normalizedLabel'] = normalizedLabel
+        normalizedLabel = self.makeLabel(item, useNormalizedVar)
+        item[label_name] = normalizedLabel
         if not isFirst:
           label += '.'
         isFirst = False
@@ -76,18 +82,18 @@ class JetRulesPostProcessor:
 
       isFirst = True
       for item in rule.get('consequents', []):
-        normalizedLabel = self.makeLabel(item)
-        item['normalizedLabel'] = normalizedLabel
+        normalizedLabel = self.makeLabel(item, useNormalizedVar)
+        item[label_name] = normalizedLabel
         if not isFirst:
           label += '.'
         isFirst = False
         label += normalizedLabel
 
-      rule['normalizedLabel'] = label
+      rule[label_name] = label
 
 
   # Recursive function to build the label of the rule antecedent or consequent
-  def makeLabel(self, elm: Dict[Text, object], useNormalizedVar: Boolean = True) -> Text:
+  def makeLabel(self, elm: Dict[Text, object], useNormalizedVar: Boolean) -> Text:
     type = elm.get('type')
     if type is None: raise Exception("Invalid jetRules elm: ", elm)
 
@@ -142,7 +148,11 @@ class JetRulesPostProcessor:
       return label
 
     if type == 'var':
-      return elm['id']
+      if useNormalizedVar:
+        return elm['id']
+      else:
+        return elm['label']
+
     if type == 'text':
       return '"{0}"'.format(elm['id'])
     if type == 'int': return 'int({0})'.format(elm['value'])
@@ -161,6 +171,7 @@ if __name__ == "__main__":
   postProcessor = JetRulesPostProcessor(data)
   postProcessor.mapVariables()
   postProcessor.addNormalizedLabels()
+  postProcessor.addLabels()
 
   # Save the updated JetRule structure
   with open('post_processed_test.jr.json', 'wt', encoding='utf-8') as f:
