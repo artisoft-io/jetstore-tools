@@ -13,7 +13,8 @@ class JetListener(JetRuleListener):
     self.literals = []
     self.resources = []
     self.lookups = []
-    self.jetRules = []
+    self.rules = []
+    self.jetRules = None
 
     # Defining intermediate structure for Jet Rule
     self.ruleProps = {}
@@ -26,31 +27,12 @@ class JetListener(JetRuleListener):
   # Exit a parse tree produced by JetRuleParser#jetrule.
   def exitJetrule(self, ctx:JetRuleParser.JetruleContext):
     print('Finished Visiting Rule File')
-    jetRules = {
+    self.jetRules = {
       'literals': self.literals,
       'resources': self.resources,
       'lookup_tables': self.lookups,
-      'jet_rules': self.jetRules
+      'jet_rules': self.rules
     }
-    with open('test.jr.json', 'wt', encoding='utf-8') as f:
-        f.write(json.dumps(jetRules, indent=4))
-
-    print('Result saved to test.jr.json')
-    # for item in self.literals:
-    #   print('    ', item)
-    # print()
-    # print('Resources:')
-    # for item in self.resources:
-    #   print('    ', item)
-    # print()
-    # print('Lookup Tables:')
-    # for item in self.lookups:
-    #   print('    ', item)
-    # print()
-    # print('Jet Rules:')
-    # for item in self.jetRules:
-    #   print('    ', item)
-    # print()
 
   # =====================================================================================
   # Literals
@@ -102,7 +84,7 @@ class JetListener(JetRuleListener):
   # Exit a parse tree produced by JetRuleParser#jetRuleStmt.
   def exitJetRuleStmt(self, ctx:JetRuleParser.JetRuleStmtContext):
     # Putting the rule together
-    self.jetRules.append({'name': ctx.ruleName.text, 
+    self.rules.append({'name': ctx.ruleName.text, 
       'properties': self.ruleProps, 
       'antecedents': self.ruleAntecedents,
       'consequents': self.ruleConsequents  })
@@ -164,7 +146,7 @@ class JetListener(JetRuleListener):
     subject = self.parseObjectAtom(self.escape(ctx.s.getText()), None)
     predicate = self.parseObjectAtom(self.escape(ctx.p.getText()), None)
     object = self.parseObjectAtom(ctx.o.getText(), ctx.o.kws)
-    antecedent = { 'isNot': True if ctx.n else False, 'triple':[subject, predicate, object] }
+    antecedent = { 'type': 'antecedent', 'isNot': True if ctx.n else False, 'triple':[subject, predicate, object] }
     if ctx.f and ctx.f.expr:
       antecedent['filter'] = ctx.f.expr
     self.ruleAntecedents.append(antecedent)
@@ -173,7 +155,7 @@ class JetListener(JetRuleListener):
   def exitConsequent(self, ctx:JetRuleParser.ConsequentContext):
     subject = self.parseObjectAtom(self.escape(ctx.s.getText()), None)
     predicate = self.parseObjectAtom(self.escape(ctx.p.getText()), None)
-    self.ruleConsequents.append({ 'triple':[subject, predicate, ctx.o.expr] })
+    self.ruleConsequents.append({ 'type': 'consequent', 'triple':[subject, predicate, ctx.o.expr] })
 
   # Exit a parse tree produced by JetRuleParser#BinaryExprTerm.
   def exitBinaryExprTerm(self, ctx:JetRuleParser.BinaryExprTermContext):
@@ -217,3 +199,9 @@ if __name__ == "__main__":
   listener = JetListener()
   walker = a4.ParseTreeWalker()
   walker.walk(listener, tree)
+
+  # Save the JetRule data structure
+  with open('test.jr.json', 'wt', encoding='utf-8') as f:
+    f.write(json.dumps(listener.jetRules, indent=4))
+
+  print('Result saved to test.jr.json')

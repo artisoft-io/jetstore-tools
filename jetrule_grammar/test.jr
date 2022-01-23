@@ -71,7 +71,17 @@ lookup_table MSK_DRG_TRIGGER {
 # =======================================================================================
 # Defining Jet Rules
 # ---------------------------------------------------------------------------------------
-[Rule2, s=+100, o=false, tag="USI"]: 
+# property s: salience, o: optimization, tag: label
+# optimization is true by default
+[Rule1, s=+100, o=false, tag="USI"]: 
+  (?clm01 rdf:type usi:Claim).
+  not(?clm01 usi:hasDRG ?drg).[(?clm01 + ?drg) + int(1) ]
+  ->
+  (?clm01 rdf:type usi:SpecialClaim).
+  (?clm01 xyz ?drg)
+;
+
+[Rule2, s=100, o=true, tag="USI"]: 
   (?clm01 rdf:type usi:Claim).
   not(?clm01 usi:hasDRG ?drg).[true and false]
   ->
