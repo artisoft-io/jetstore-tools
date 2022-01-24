@@ -1,5 +1,5 @@
 import sys
-from typing import Text
+from typing import Dict, Text
 import antlr4 as a4
 import json
 from py.JetRuleLexer import JetRuleLexer
@@ -13,7 +13,8 @@ class JetListener(JetRuleListener):
     self.literals = []
     self.resources = []
     self.lookups = []
-    self.jetRules = []
+    self.rules = []
+    self.jetRules = None
 
     # Defining intermediate structure for Jet Rule
     self.ruleProps = {}
@@ -26,31 +27,12 @@ class JetListener(JetRuleListener):
   # Exit a parse tree produced by JetRuleParser#jetrule.
   def exitJetrule(self, ctx:JetRuleParser.JetruleContext):
     print('Finished Visiting Rule File')
-    jetRules = {
+    self.jetRules = {
       'literals': self.literals,
       'resources': self.resources,
       'lookup_tables': self.lookups,
-      'jet_rules': self.jetRules
+      'jet_rules': self.rules
     }
-    with open('test.jr.json', 'wt', encoding='utf-8') as f:
-        f.write(json.dumps(jetRules, indent=4))
-
-    print('Result saved to test.jr.json')
-    # for item in self.literals:
-    #   print('    ', item)
-    # print()
-    # print('Resources:')
-    # for item in self.resources:
-    #   print('    ', item)
-    # print()
-    # print('Lookup Tables:')
-    # for item in self.lookups:
-    #   print('    ', item)
-    # print()
-    # print('Jet Rules:')
-    # for item in self.jetRules:
-    #   print('    ', item)
-    # print()
 
   # =====================================================================================
   # Literals
@@ -71,16 +53,16 @@ class JetListener(JetRuleListener):
     self.literals.append({ 'type': ctx.varType.text, 'id': ctx.varName.getText(), 'value':  ctx.declValue.getText()})
 
   def exitStringLiteralStmt(self, ctx:JetRuleParser.StringLiteralStmtContext):
-    self.literals.append({ 'type': ctx.varType.text, 'id': ctx.varName.getText(), 'value':  ctx.declValue.text})
+    self.literals.append({ 'type': ctx.varType.text, 'id': ctx.varName.getText(), 'value':  self.escapeString(ctx.declValue.text)})
 
   # =====================================================================================
   # Resources
   # -------------------------------------------------------------------------------------
   def exitNamedResourceStmt(self, ctx:JetRuleParser.NamedResourceStmtContext):
-    self.resources.append({ 'type': 'resource', 'id': ctx.resName.getText(), 'value':  ctx.resCtx.resVal.text})
+    self.resources.append({ 'type': 'resource', 'id': self.escape(ctx.resName.getText()), 'value':  self.escapeString(ctx.resCtx.resVal.text)})
 
   def exitVolatileResourceStmt(self, ctx:JetRuleParser.VolatileResourceStmtContext):
-    self.resources.append({ 'type': 'volatile_resource', 'id': ctx.resName.getText(), 'value': ctx.resVal.text })
+    self.resources.append({ 'type': 'volatile_resource', 'id': self.escape(ctx.resName.getText()), 'value': self.escapeString(ctx.resVal.text) })
 
   # =====================================================================================
   # Lookup Tables
@@ -102,7 +84,7 @@ class JetListener(JetRuleListener):
   # Exit a parse tree produced by JetRuleParser#jetRuleStmt.
   def exitJetRuleStmt(self, ctx:JetRuleParser.JetRuleStmtContext):
     # Putting the rule together
-    self.jetRules.append({'name': ctx.ruleName.text, 
+    self.rules.append({'name': ctx.ruleName.text, 
       'properties': self.ruleProps, 
       'antecedents': self.ruleAntecedents,
       'consequents': self.ruleConsequents  })
@@ -111,7 +93,7 @@ class JetListener(JetRuleListener):
   def exitRuleProperties(self, ctx:JetRuleParser.RulePropertiesContext):
     key = ctx.key.text
     val = ctx.valCtx.val
-    val = val.text if val else ctx.valCtx.intval.getText()
+    val = self.escapeString(val.text) if val else ctx.valCtx.intval.getText()
     self.ruleProps[key] = val
 
   # Function to remove the escape \" for resource with name clashing reserved keywords
@@ -122,21 +104,58 @@ class JetListener(JetRuleListener):
     if pos1>0:
       pos2 = str.find('"')
       if pos2 == pos1+1:
-        # print("escape", str, 'to', str.replace('"', ''))
         return str.replace('"', '')
     return str
 
+  # Function to escape String tokens
+  def escapeString(self, str: Text) -> Text:
+    # make sure it's a String
+    if not str or str[0]!='"':
+      return str
+    return str.replace('\\"', '"')[1:-1]
+
+  # Function to identify the type of the triple atom
+  # This function require the use of escape function first, the call of escape
+  # is not included here to avoid duplication in function call
+  def parseObjectAtom(self, str:Text, kws: JetRuleParser.KeywordsContext) -> Dict[Text, Text]:
+    # possible inputs:
+    #   ?clm        -> {type: "var", id: "?clm"}
+    #   rdf:type    -> {type: "identifier", id: "rdf:type"}
+    #   localVal    -> {type: "identifier", id: "localVal"}
+    #   "XYZ"       -> {type: "text", value: "XYZ"}
+    #   text("XYZ") -> {type: "text", value: "XYZ"}
+    #   int(1)      -> {type: "int", value: "1"}
+    #   true        -> {type: "keyword", value: "true"}
+    if not str: return None
+    if str[0] == '?': return {'type': 'var', 'id': str}
+    if str[0] == '"': return {'type': 'text', 'id': self.escapeString(str)}
+    v = str.split('(')
+    if len(v) > 1:
+      w = {'type': v[0], 'value': v[1][0:-1]}
+      if v[1][0] == '"': return {'type': 'text', 'id': self.escapeString(v[1])[:-1]}
+      return w
+    # Check if it's a keyword
+    if kws:
+      return {'type': "keyword", 'value': str}
+
+    # default is an identifier
+    return {'type': "identifier", 'value': str}
+
   # Exit a parse tree produced by JetRuleParser#antecedent.
   def exitAntecedent(self, ctx:JetRuleParser.AntecedentContext):
-    subject = self.escape(ctx.s.getText())
-    predicate = self.escape(ctx.p.getText())
-    self.ruleAntecedents.append({ 'isNot': True if ctx.n else False, 'triple':[subject, predicate, ctx.o.getText()], 'filter': ctx.f.expr if ctx.f else None })
+    subject = self.parseObjectAtom(self.escape(ctx.s.getText()), None)
+    predicate = self.parseObjectAtom(self.escape(ctx.p.getText()), None)
+    object = self.parseObjectAtom(ctx.o.getText(), ctx.o.kws)
+    antecedent = { 'type': 'antecedent', 'isNot': True if ctx.n else False, 'triple':[subject, predicate, object] }
+    if ctx.f and ctx.f.expr:
+      antecedent['filter'] = ctx.f.expr
+    self.ruleAntecedents.append(antecedent)
 
   # Exit a parse tree produced by JetRuleParser#consequent.
   def exitConsequent(self, ctx:JetRuleParser.ConsequentContext):
-    subject = self.escape(ctx.s.getText())
-    predicate = self.escape(ctx.p.getText())
-    self.ruleConsequents.append({ 'triple':[subject, predicate, ctx.o.expr] })
+    subject = self.parseObjectAtom(self.escape(ctx.s.getText()), None)
+    predicate = self.parseObjectAtom(self.escape(ctx.p.getText()), None)
+    self.ruleConsequents.append({ 'type': 'consequent', 'triple':[subject, predicate, ctx.o.expr] })
 
   # Exit a parse tree produced by JetRuleParser#BinaryExprTerm.
   def exitBinaryExprTerm(self, ctx:JetRuleParser.BinaryExprTermContext):
@@ -148,28 +167,21 @@ class JetListener(JetRuleListener):
 
   # Exit a parse tree produced by JetRuleParser#UnaryExprTerm.
   def exitUnaryExprTerm(self, ctx:JetRuleParser.UnaryExprTermContext):
-    ctx.expr = {'type': 'unary', 'arg': ctx.arg.expr, 'op': ctx.op.getText()}
+    ctx.expr = {'type': 'unary', 'op': ctx.op.getText(), 'arg': ctx.arg.expr}
 
   # Exit a parse tree produced by JetRuleParser#UnaryExprTerm2.
   def exitUnaryExprTerm2(self, ctx:JetRuleParser.UnaryExprTerm2Context):
-    ctx.expr = {'type': 'unary', 'arg': ctx.arg.expr, 'op': ctx.op.getText()}
+    ctx.expr = {'type': 'unary', 'op': ctx.op.getText(), 'arg': ctx.arg.expr}
 
   # Exit a parse tree produced by JetRuleParser#UnaryExprTerm3.
   def exitUnaryExprTerm3(self, ctx:JetRuleParser.UnaryExprTerm3Context):
-    ctx.expr = {'type': 'unary', 'arg': ctx.arg.expr, 'op': ctx.op.getText()}
+    ctx.expr = {'type': 'unary', 'op': ctx.op.getText(), 'arg': ctx.arg.expr}
 
-  # Exit a parse tree produced by JetRuleParser#IdentExprTerm.
-  def exitIdentExprTerm(self, ctx:JetRuleParser.IdentExprTermContext):
+  # Exit a parse tree produced by JetRuleParser#ObjectAtomExprTerm.
+  def exitObjectAtomExprTerm(self, ctx:JetRuleParser.ObjectAtomExprTermContext):
+    # ctx.ident is type ObjectAtomContext
     ident = self.escape(ctx.ident.getText())
-    ctx.expr = {'type': 'ident', 'id': ident}
-
-  # Exit a parse tree produced by JetRuleParser#TrueExprTerm.
-  def exitTrueExprTerm(self, ctx:JetRuleParser.TrueExprTermContext):
-    ctx.expr = {'type': 'keyword', 'id': 'true'}
-
-  # Exit a parse tree produced by JetRuleParser#FalseExprTerm.
-  def exitFalseExprTerm(self, ctx:JetRuleParser.FalseExprTermContext):
-    ctx.expr = {'type': 'keyword', 'id': 'false'}
+    ctx.expr = self.parseObjectAtom(ident, ctx.ident.kws)
 
 if __name__ == "__main__":
   
@@ -187,3 +199,9 @@ if __name__ == "__main__":
   listener = JetListener()
   walker = a4.ParseTreeWalker()
   walker.walk(listener, tree)
+
+  # Save the JetRule data structure
+  with open('test.jr.json', 'wt', encoding='utf-8') as f:
+    f.write(json.dumps(listener.jetRules, indent=4))
+
+  print('Result saved to test.jr.json')

@@ -137,7 +137,8 @@
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -147,7 +148,9 @@
                             "type": "identifier",
                             "value": "usi:Claim"
                         }
-                    ]
+                    ],
+                    "normalizedLabel": "(?x1 rdf:type usi:Claim)",
+                    "label": "(?clm01 rdf:type usi:Claim)"
                 },
                 {
                     "type": "antecedent",
@@ -155,7 +158,8 @@
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -163,7 +167,8 @@
                         },
                         {
                             "type": "var",
-                            "id": "?drg"
+                            "id": "?x2",
+                            "label": "?drg"
                         }
                     ],
                     "filter": {
@@ -172,12 +177,14 @@
                             "type": "binary",
                             "lhs": {
                                 "type": "var",
-                                "id": "?clm01"
+                                "id": "?x1",
+                                "label": "?clm01"
                             },
                             "op": "+",
                             "rhs": {
                                 "type": "var",
-                                "id": "?drg"
+                                "id": "?x2",
+                                "label": "?drg"
                             }
                         },
                         "op": "+",
@@ -185,7 +192,9 @@
                             "type": "int",
                             "value": "1"
                         }
-                    }
+                    },
+                    "normalizedLabel": "not(?x1 usi:hasDRG ?x2).[(?x1 + ?x2) + int(1)]",
+                    "label": "not(?clm01 usi:hasDRG ?drg).[(?clm01 + ?drg) + int(1)]"
                 }
             ],
             "consequents": [
@@ -194,7 +203,8 @@
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -204,14 +214,17 @@
                             "type": "identifier",
                             "value": "usi:SpecialClaim"
                         }
-                    ]
+                    ],
+                    "normalizedLabel": "(?x1 rdf:type usi:SpecialClaim)",
+                    "label": "(?clm01 rdf:type usi:SpecialClaim)"
                 },
                 {
                     "type": "consequent",
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -219,11 +232,16 @@
                         },
                         {
                             "type": "var",
-                            "id": "?drg"
+                            "id": "?x2",
+                            "label": "?drg"
                         }
-                    ]
+                    ],
+                    "normalizedLabel": "(?x1 xyz ?x2)",
+                    "label": "(?clm01 xyz ?drg)"
                 }
-            ]
+            ],
+            "normalizedLabel": "(?x1 rdf:type usi:Claim).not(?x1 usi:hasDRG ?x2).[(?x1 + ?x2) + int(1)] -> (?x1 rdf:type usi:SpecialClaim).(?x1 xyz ?x2)",
+            "label": "(?clm01 rdf:type usi:Claim).not(?clm01 usi:hasDRG ?drg).[(?clm01 + ?drg) + int(1)] -> (?clm01 rdf:type usi:SpecialClaim).(?clm01 xyz ?drg)"
         },
         {
             "name": "Rule2",
@@ -239,7 +257,8 @@
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -249,7 +268,9 @@
                             "type": "identifier",
                             "value": "usi:Claim"
                         }
-                    ]
+                    ],
+                    "normalizedLabel": "(?x1 rdf:type usi:Claim)",
+                    "label": "(?clm01 rdf:type usi:Claim)"
                 },
                 {
                     "type": "antecedent",
@@ -257,7 +278,8 @@
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -265,7 +287,8 @@
                         },
                         {
                             "type": "var",
-                            "id": "?drg"
+                            "id": "?x2",
+                            "label": "?drg"
                         }
                     ],
                     "filter": {
@@ -279,7 +302,9 @@
                             "type": "keyword",
                             "value": "false"
                         }
-                    }
+                    },
+                    "normalizedLabel": "not(?x1 usi:hasDRG ?x2).[true and false]",
+                    "label": "not(?clm01 usi:hasDRG ?drg).[true and false]"
                 }
             ],
             "consequents": [
@@ -288,7 +313,8 @@
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -298,9 +324,13 @@
                             "type": "identifier",
                             "value": "usi:SpecialClaim"
                         }
-                    ]
+                    ],
+                    "normalizedLabel": "(?x1 rdf:type usi:SpecialClaim)",
+                    "label": "(?clm01 rdf:type usi:SpecialClaim)"
                 }
-            ]
+            ],
+            "normalizedLabel": "(?x1 rdf:type usi:Claim).not(?x1 usi:hasDRG ?x2).[true and false] -> (?x1 rdf:type usi:SpecialClaim)",
+            "label": "(?clm01 rdf:type usi:Claim).not(?clm01 usi:hasDRG ?drg).[true and false] -> (?clm01 rdf:type usi:SpecialClaim)"
         },
         {
             "name": "Rule3",
@@ -312,7 +342,8 @@
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -329,7 +360,8 @@
                             "type": "binary",
                             "lhs": {
                                 "type": "var",
-                                "id": "?a1"
+                                "id": "?x2",
+                                "label": "?a1"
                             },
                             "op": "+",
                             "rhs": {
@@ -342,7 +374,8 @@
                             "type": "binary",
                             "lhs": {
                                 "type": "var",
-                                "id": "?a2"
+                                "id": "?x3",
+                                "label": "?a2"
                             },
                             "op": "+",
                             "rhs": {
@@ -350,7 +383,9 @@
                                 "value": "b2"
                             }
                         }
-                    }
+                    },
+                    "normalizedLabel": "(?x1 rdf:type usi:Claim).[(?x2 + b1) * (?x3 + b2)]",
+                    "label": "(?clm01 rdf:type usi:Claim).[(?a1 + b1) * (?a2 + b2)]"
                 },
                 {
                     "type": "antecedent",
@@ -358,7 +393,8 @@
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -375,7 +411,8 @@
                             "type": "binary",
                             "lhs": {
                                 "type": "var",
-                                "id": "?a1"
+                                "id": "?x2",
+                                "label": "?a1"
                             },
                             "op": "or",
                             "rhs": {
@@ -386,9 +423,12 @@
                         "op": "and",
                         "rhs": {
                             "type": "var",
-                            "id": "?a2"
+                            "id": "?x3",
+                            "label": "?a2"
                         }
-                    }
+                    },
+                    "normalizedLabel": "(?x1 rdf:type usi:Claim).[(?x2 or b1) and ?x3]",
+                    "label": "(?clm01 rdf:type usi:Claim).[(?a1 or b1) and ?a2]"
                 }
             ],
             "consequents": [
@@ -397,7 +437,8 @@
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -407,14 +448,17 @@
                             "type": "identifier",
                             "value": "usi:SpecialClaim"
                         }
-                    ]
+                    ],
+                    "normalizedLabel": "(?x1 rdf:type usi:SpecialClaim)",
+                    "label": "(?clm01 rdf:type usi:SpecialClaim)"
                 },
                 {
                     "type": "consequent",
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm02"
+                            "id": "?x4",
+                            "label": "?clm02"
                         },
                         {
                             "type": "identifier",
@@ -424,9 +468,13 @@
                             "type": "identifier",
                             "value": "usi:SpecialClaim"
                         }
-                    ]
+                    ],
+                    "normalizedLabel": "(?x4 rdf:type usi:SpecialClaim)",
+                    "label": "(?clm02 rdf:type usi:SpecialClaim)"
                 }
-            ]
+            ],
+            "normalizedLabel": "(?x1 rdf:type usi:Claim).[(?x2 + b1) * (?x3 + b2)].(?x1 rdf:type usi:Claim).[(?x2 or b1) and ?x3] -> (?x1 rdf:type usi:SpecialClaim).(?x4 rdf:type usi:SpecialClaim)",
+            "label": "(?clm01 rdf:type usi:Claim).[(?a1 + b1) * (?a2 + b2)].(?clm01 rdf:type usi:Claim).[(?a1 or b1) and ?a2] -> (?clm01 rdf:type usi:SpecialClaim).(?clm02 rdf:type usi:SpecialClaim)"
         },
         {
             "name": "Rule4",
@@ -438,7 +486,8 @@
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -446,7 +495,8 @@
                         },
                         {
                             "type": "var",
-                            "id": "?code"
+                            "id": "?x2",
+                            "label": "?code"
                         }
                     ],
                     "filter": {
@@ -458,7 +508,8 @@
                                 "type": "binary",
                                 "lhs": {
                                     "type": "var",
-                                    "id": "?a1"
+                                    "id": "?x3",
+                                    "label": "?a1"
                                 },
                                 "op": "or",
                                 "rhs": {
@@ -473,10 +524,13 @@
                             "op": "not",
                             "arg": {
                                 "type": "var",
-                                "id": "?a2"
+                                "id": "?x4",
+                                "label": "?a2"
                             }
                         }
-                    }
+                    },
+                    "normalizedLabel": "(?x1 has_code ?x2).[(not (?x3 or b1)) and (not ?x4)]",
+                    "label": "(?clm01 has_code ?code).[(not (?a1 or b1)) and (not ?a2)]"
                 }
             ],
             "consequents": [
@@ -485,7 +539,8 @@
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -495,22 +550,27 @@
                             "type": "binary",
                             "lhs": {
                                 "type": "var",
-                                "id": "?a1"
+                                "id": "?x3",
+                                "label": "?a1"
                             },
                             "op": "+",
                             "rhs": {
                                 "type": "var",
-                                "id": "?b2"
+                                "id": "?x5",
+                                "label": "?b2"
                             }
                         }
-                    ]
+                    ],
+                    "normalizedLabel": "(?x1 value ?x3 + ?x5)",
+                    "label": "(?clm01 value ?a1 + ?b2)"
                 },
                 {
                     "type": "consequent",
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -520,22 +580,27 @@
                             "type": "binary",
                             "lhs": {
                                 "type": "var",
-                                "id": "?a1"
+                                "id": "?x3",
+                                "label": "?a1"
                             },
                             "op": "+",
                             "rhs": {
                                 "type": "var",
-                                "id": "?b2"
+                                "id": "?x5",
+                                "label": "?b2"
                             }
                         }
-                    ]
+                    ],
+                    "normalizedLabel": "(?x1 value2 ?x3 + ?x5)",
+                    "label": "(?clm01 value2 ?a1 + ?b2)"
                 },
                 {
                     "type": "consequent",
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -546,12 +611,17 @@
                             "op": "not",
                             "arg": {
                                 "type": "var",
-                                "id": "?b2"
+                                "id": "?x5",
+                                "label": "?b2"
                             }
                         }
-                    ]
+                    ],
+                    "normalizedLabel": "(?x1 value2 not ?x5)",
+                    "label": "(?clm01 value2 not ?b2)"
                 }
-            ]
+            ],
+            "normalizedLabel": "(?x1 has_code ?x2).[(not (?x3 or b1)) and (not ?x4)] -> (?x1 value ?x3 + ?x5).(?x1 value2 ?x3 + ?x5).(?x1 value2 not ?x5)",
+            "label": "(?clm01 has_code ?code).[(not (?a1 or b1)) and (not ?a2)] -> (?clm01 value ?a1 + ?b2).(?clm01 value2 ?a1 + ?b2).(?clm01 value2 not ?b2)"
         },
         {
             "name": "Rule5",
@@ -563,7 +633,8 @@
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -571,9 +642,12 @@
                         },
                         {
                             "type": "var",
-                            "id": "?code"
+                            "id": "?x2",
+                            "label": "?code"
                         }
-                    ]
+                    ],
+                    "normalizedLabel": "(?x1 has_code ?x2)",
+                    "label": "(?clm01 has_code ?code)"
                 }
             ],
             "consequents": [
@@ -582,7 +656,8 @@
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -592,9 +667,13 @@
                             "type": "keyword",
                             "value": "true"
                         }
-                    ]
+                    ],
+                    "normalizedLabel": "(?x1 usi:lookup_table true)",
+                    "label": "(?clm01 usi:lookup_table true)"
                 }
-            ]
+            ],
+            "normalizedLabel": "(?x1 has_code ?x2) -> (?x1 usi:lookup_table true)",
+            "label": "(?clm01 has_code ?code) -> (?clm01 usi:lookup_table true)"
         },
         {
             "name": "Rule6",
@@ -606,7 +685,8 @@
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -616,7 +696,9 @@
                             "type": "identifier",
                             "value": "r1"
                         }
-                    ]
+                    ],
+                    "normalizedLabel": "(?x1 has_code r1)",
+                    "label": "(?clm01 has_code r1)"
                 },
                 {
                     "type": "antecedent",
@@ -624,7 +706,8 @@
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -634,7 +717,9 @@
                             "type": "identifier",
                             "value": "r2"
                         }
-                    ]
+                    ],
+                    "normalizedLabel": "(?x1 has_str r2)",
+                    "label": "(?clm01 has_str r2)"
                 }
             ],
             "consequents": [
@@ -643,7 +728,8 @@
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -653,14 +739,17 @@
                             "type": "text",
                             "id": "valueX"
                         }
-                    ]
+                    ],
+                    "normalizedLabel": "(?x1 usi:lookup_table \"valueX\")",
+                    "label": "(?clm01 usi:lookup_table \"valueX\")"
                 },
                 {
                     "type": "consequent",
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -670,14 +759,17 @@
                             "type": "text",
                             "id": "MERGED \"MARKET\" CHARGE BACK"
                         }
-                    ]
+                    ],
+                    "normalizedLabel": "(?x1 usi:market \"MERGED \"MARKET\" CHARGE BACK\")",
+                    "label": "(?clm01 usi:market \"MERGED \"MARKET\" CHARGE BACK\")"
                 },
                 {
                     "type": "consequent",
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -687,9 +779,13 @@
                             "type": "text",
                             "id": "MERGED \"MARKET\" CHARGE BACK"
                         }
-                    ]
+                    ],
+                    "normalizedLabel": "(?x1 usi:market \"MERGED \"MARKET\" CHARGE BACK\")",
+                    "label": "(?clm01 usi:market \"MERGED \"MARKET\" CHARGE BACK\")"
                 }
-            ]
+            ],
+            "normalizedLabel": "(?x1 has_code r1).(?x1 has_str r2) -> (?x1 usi:lookup_table \"valueX\").(?x1 usi:market \"MERGED \"MARKET\" CHARGE BACK\").(?x1 usi:market \"MERGED \"MARKET\" CHARGE BACK\")",
+            "label": "(?clm01 has_code r1).(?clm01 has_str r2) -> (?clm01 usi:lookup_table \"valueX\").(?clm01 usi:market \"MERGED \"MARKET\" CHARGE BACK\").(?clm01 usi:market \"MERGED \"MARKET\" CHARGE BACK\")"
         },
         {
             "name": "Rule7",
@@ -701,7 +797,8 @@
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -711,7 +808,9 @@
                             "type": "int",
                             "value": "1"
                         }
-                    ]
+                    ],
+                    "normalizedLabel": "(?x1 has_code int(1))",
+                    "label": "(?clm01 has_code int(1))"
                 },
                 {
                     "type": "antecedent",
@@ -719,7 +818,8 @@
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -729,7 +829,9 @@
                             "type": "text",
                             "id": "value"
                         }
-                    ]
+                    ],
+                    "normalizedLabel": "(?x1 has_str \"value\")",
+                    "label": "(?clm01 has_str \"value\")"
                 },
                 {
                     "type": "antecedent",
@@ -737,7 +839,8 @@
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -747,7 +850,9 @@
                             "type": "keyword",
                             "value": "true"
                         }
-                    ]
+                    ],
+                    "normalizedLabel": "(?x1 hasTrue true)",
+                    "label": "(?clm01 hasTrue true)"
                 }
             ],
             "consequents": [
@@ -756,7 +861,8 @@
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -766,14 +872,17 @@
                             "type": "keyword",
                             "value": "true"
                         }
-                    ]
+                    ],
+                    "normalizedLabel": "(?x1 usi:lookup_table true)",
+                    "label": "(?clm01 usi:lookup_table true)"
                 },
                 {
                     "type": "consequent",
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -783,14 +892,17 @@
                             "type": "int",
                             "value": "1"
                         }
-                    ]
+                    ],
+                    "normalizedLabel": "(?x1 has_literal int(1))",
+                    "label": "(?clm01 has_literal int(1))"
                 },
                 {
                     "type": "consequent",
                     "triple": [
                         {
                             "type": "var",
-                            "id": "?clm01"
+                            "id": "?x1",
+                            "label": "?clm01"
                         },
                         {
                             "type": "identifier",
@@ -808,9 +920,13 @@
                                 "value": "4"
                             }
                         }
-                    ]
+                    ],
+                    "normalizedLabel": "(?x1 has_expr int(1) + long(4))",
+                    "label": "(?clm01 has_expr int(1) + long(4))"
                 }
-            ]
+            ],
+            "normalizedLabel": "(?x1 has_code int(1)).(?x1 has_str \"value\").(?x1 hasTrue true) -> (?x1 usi:lookup_table true).(?x1 has_literal int(1)).(?x1 has_expr int(1) + long(4))",
+            "label": "(?clm01 has_code int(1)).(?clm01 has_str \"value\").(?clm01 hasTrue true) -> (?clm01 usi:lookup_table true).(?clm01 has_literal int(1)).(?clm01 has_expr int(1) + long(4))"
         }
     ]
 }
